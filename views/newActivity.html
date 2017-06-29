@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Activity</title>
+		<!-- Latest compiled and minified CSS -->
+	</head>
+	<body>
+
+    <div class="newActivity">
+  		<div class="row" style="padding-bottom:15px;">
+        <p class="activityText">Add activity</p>
+        <!-- box for choosing activity title-->
+        <input id ="name" class="inputBoxes" type="textarea" placeholder="Name your activity" ng-model="name"></input>
+      </div>
+  		<div class="row" style="padding-bottom:15px;">
+        <!-- box for choosing activity length-->
+        <input class="inputBoxes" id ="length" type="number" min="1" placeholder="Duration in minutes" ng-model="time"></input>
+      </div>
+      <!-- drop down list for choosing activity type -->
+      <div class="row">
+          <div class="form-group" id="pulldown" name="pulldown" style="width:200px;">
+            <select id="pulldown" ng-model="type" ng-change="changeType(type)">
+              <option ng-repeat="type in getType()" value="{{getType().indexOf(type)}}">{{type}}
+                </option>
+            </select>
+          </div>
+      </div>
+      <!-- input area for activity description-->
+      <div class="row">
+        <textarea id="description" class="text" class="inputBoxes" type="textarea" placeholder="Description of activity" ng-model="description" style="height:180px; width:300px;"></textarea>
+      </div>
+      <div id="buttons" class="row" style="padding-top:10px">
+          <!-- create activity -->
+          <a class="btn btn-primary" ng-click="newActivity(name, time, typeid , description)"href="#/schedule">Save</a>
+          <!-- cancel creating activity-->
+          <a class="btn btn-primary" href="#/schedule">Cancel</a>
+      </div>
+    </div>
+
+	</body>
+</html>

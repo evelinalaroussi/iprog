@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Meeting planner</title>
+	</head>
+	<body>
+		<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>
+							<!-- button to add new activity -->
+							<a style="margin: 5px; width: 200px;" href="#/newactivity" class="btn btn-primary">+ Add activity</a>
+						</td>
+					</tr>
+
+					<!-- Parked activities -->
+					<td>
+						<div id = "parked" data-drop="true" jqyoui-droppable="{onOver: 'allowDrop', onDrop: 'dropInArea'}" jqyoui-options="{greedy: true}">
+							<table id="parkedTable" style="float: left;">
+								<tr id = {{$index}} ng-repeat="a in getParkedActivities()" style="border: 1px solid; background:{{getColor(a.getTypeId())}};" data-drag="true" data-jqyoui-options="{snap: true, cursor: 'move', revert: 'invalid', helper: 'clone', greedy: true}" ng-model="information" jqyoui-draggable="{animate:true, onStart: 'drag'}" data-drop="true" jqyoui-droppable="{onOver: 'allowDrop', onDrop: 'drop'}">
+									<td style="width: 200px">
+										<a ng-click="setEdit($parent.$index,$index)" href="#/editactivity" style="color: black">{{a.getLength()}} min {{a.getName()}}</a>
+									</td>
+								</tr>
+							</table>
+						</div>
+					</td>
+				</table>
+			</td>
+
+			<!-- Days -->
+			<td>
+				<table id = "daysTable">
+					<tr>
+						<!-- Loop through all days -->
+						<td id = {{$index}} class="day" ng-repeat="d in getDays()" data-drop="true" jqyoui-droppable="{onOver: 'allowDrop', onDrop: 'dropInArea'}" jqyoui-options="{greedy: true}">
+							<table>
+								<tr>
+									<!-- Weather icon and temperature -->
+									<div align="center" style="height: 50px;">
+										<img ng-src = "{{getIcon($index)}}"> 
+										{{getTemperature($index)}}
+									</div>
+
+									<!-- Day information: date, start time, end time, total length -->
+									<td id="dayInformation1">
+										Date: 
+										<br><input id="date" type="date" ng-model="date" ng-init="date = d.getDate()" value="{{date}}" ng-change="setDate(d,date,$index)" style="width:100px"/>
+										<br>Start time: 
+										<br><input style="width: 100px" ng-init="start = d.getStart()" value="{{start}}" ng-model="start"> {{setStart(d, start, $index)}}
+										<br>End time: {{d.getEnd()}} 
+										<br>Length: {{d.getTotalLength()}} min
+									</td>
+
+									<!-- Day information: activity box, warning symbol, delete day -->
+									<td id="dayInformation2" align="center"> 
+
+										<!-- Warning symbol for breaks -->
+										<div id="breakSymbol">
+											<div ng-if="activityPercent(d,3)*100 < 30">
+												<div id="actIcon" class="imgInfo" title="We recommend that you add more breaks. A meeting should consist of at least 30% breaks.">
+												</div>
+											</div>
+										</div>
+
+										<!-- Activity box, overview of the different types of activities -->
+										<div id="actBox">
+											<div class="activityBox" ng-repeat="n in [0,1,2,3,4]" style="height: {{60*activityPercent(d,n)}}px; width: 50px; background: {{getColor(n)}}">
+											</div>
+										</div>
+
+										<!-- remove day button -->
+										<a id="deleteDayButton" class="btn btn-primary" ng-click="removeDay($index)" href="#/schedule">Delete Day</a>
+									</td>
+
+								</tr>
+							</table>
+
+							<!-- Repeat for all activities in the day -->
+							<div id="activities">
+								<div id = {{$index}} class="activity" ng-repeat="a in d.getActivities()" style="background:{{getColor(a.getTypeId())}};" data-drag="true" data-jqyoui-options="{snap: true, cursor: 'move', revert: 'invalid', helper: 'clone', greedy: true}" ng-model="information" jqyoui-draggable="{animate:true, onStart: 'drag'}" data-drop="true" jqyoui-droppable="{onOver: 'allowDrop', onDrop: 'drop'}">
+									<a ng-click="setEdit($parent.$index,$index)" href="#/editactivity" style="color: black">{{getStart($index,d)}} {{a.getName()}} <br></a>
+								</div>
+							</div>
+
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td>
+				<button ng-click="addDay()" class="btn btn-primary">+ Add a day</button>
+			</td>
+		</tr>
+		</table>
+	</body>
+</html>

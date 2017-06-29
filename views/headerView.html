@@ -1,0 +1,12 @@
+<div id="headerView">
+    <h1>Meeting planner<small><em>Your best tool for planning meetings.</em></small></h1>
+</div>  
+
+<!-- Makes the header scroll with the page -->
+<script>
+$(window).scroll(function(){
+    $('#headerView').css({
+        'left': $(this).scrollLeft()
+    });
+});
+</script>
