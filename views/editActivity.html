@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Activity</title>
+		<!-- Latest compiled and minified CSS! -->
+	</head>
+	<body>
+      <div class="newActivity">
+        <div style="padding-top:10px;">
+    		<div class="row" style="padding-bottom:15px;">
+          <p class="activityText">Edit activity</p>
+          <!-- field for changing activity title-->
+          <input id ="name" class="inputBoxes" type="textarea" ng-init="name = getName()" value="name" ng-model="name" ></input>
+        </div>
+    		<div class="row">
+          <!--input field for changing activity length -->
+          <input id ="length" class="inputBoxes" type="number" min="1" ng-init="time = getLength()" value="time" ng-model="time"></input> min
+        </div>
+        <div class="row" style="padding-top:10px;">
+            <!-- drop down list for changing activity type-->
+            <div class="form-group" id="pulldown" name="pulldown">
+              <select id="pulldown" ng-model="type" ng-change="changeType(type)">
+                <option ng-repeat="type in getType()" value="{{getType().indexOf(type)}}">{{type}}
+                  </option>
+              </select>
+            </div>
+        </div>
+
+        <!-- text area for changing description -->
+        <div class="row">
+          <textarea id="description" class="text" class="inputBoxes" type="textarea" ng-init="description = getDescription()" ng-model="description" style="height:180px; width:300px;"></textarea>
+        </div>
+        <div class="row" style="padding-top:10px">
+            <!-- update -->
+            <a class="btn btn-primary" ng-click="updateActivity(name, time, typeid , description)" href="#/schedule">Save</a>
+            <!-- cancel -->
+            <a class="btn btn-primary" href="#/schedule">Cancel</a>
+            <!-- remove activity -->
+            <a class="btn btn-primary" ng-click="removeActivity()" href="#/schedule">Delete Activity</a>
+        </div>
+      </div>
+    </div>
+	</body>
+</html>
